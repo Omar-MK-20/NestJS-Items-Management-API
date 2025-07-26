@@ -41,7 +41,7 @@ lerna-debug.log*
 .env.test.local
 .env.production.local
 .env.local
-src/config/keys.ts
+keys.ts
 
 # temp directory
 .temp
