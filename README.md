@@ -39,7 +39,7 @@ A RESTful API built with NestJS framework for managing items with MongoDB integr
 
 3. **Configure MongoDB connection**
    
-   Update the MongoDB URI in `src/config/keys.ts`:
+   Add the MongoDB URI in `src/config/keys.ts`:
    ```typescript
    export default {
      mongoUri: 'your-mongodb-connection-string'
