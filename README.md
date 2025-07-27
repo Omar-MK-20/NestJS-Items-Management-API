@@ -38,7 +38,7 @@ npm install
    Add the following content to your `.env` file:
    ```env
    # MongoDB Connection String
-   mongoUri=mongodb+srv://username:password@cluster.mongodb.net/database?retryWrites=true&w=majority
+   mongoUri=<your connection String>
    
    # Server Configuration
    PORT=3000
