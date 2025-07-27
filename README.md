@@ -1,50 +1,53 @@
 # NestJS Items Management API
 
-A RESTful API built with NestJS framework for managing items with MongoDB integration.
+A RESTful API built with NestJS for managing items with MongoDB integration. Deployed on Vercel.
 
-## 🚀 Features
+## 🚀 Live Demo
 
-- **RESTful API**: Complete CRUD operations for items
-- **MongoDB Integration**: Persistent data storage using Mongoose ODM
-- **TypeScript**: Full type safety and modern JavaScript features
-- **Validation**: Request validation using DTOs
-- **Modular Architecture**: Clean separation of concerns with NestJS modules
+**Production URL**: [https://nest-js-items-management-api.vercel.app](https://nest-js-items-management-api.vercel.app)
 
 ## 🛠️ Tech Stack
 
 - **Framework**: NestJS 11.x
 - **Database**: MongoDB with Mongoose ODM
 - **Language**: TypeScript
-- **Testing**: Jest
-- **Code Quality**: ESLint, Prettier
+- **Deployment**: Vercel
+- **Configuration**: @nestjs/config
 
-## 📋 Prerequisites
+## 📋 Quick Start
 
-- Node.js (v18 or higher)
-- npm or yarn
-- MongoDB database (local or cloud)
+### Prerequisites
+- Node.js (v18+)
+- MongoDB database(local or cloud)
 
-## 🚀 Installation & Setup
-
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd nest-app
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+### Installation
+```bash
+# Clone and install packages
+git clone <repository-url>
+cd nest-app
+npm install
 
 3. **Configure MongoDB connection**
    
-   Add the MongoDB URI in `src/config/keys.ts`:
-   ```typescript
-   export default {
-     mongoUri: 'your-mongodb-connection-string'
-   }
+   Create a `.env` file in the root directory and add your MongoDB URI:
+   ```bash
+   # Create .env file
+   touch .env
    ```
+   
+   Add the following content to your `.env` file:
+   ```env
+   # MongoDB Connection String
+   mongoUri=mongodb+srv://username:password@cluster.mongodb.net/database?retryWrites=true&w=majority
+   
+   # Server Configuration
+   PORT=3000
+   
+   # Environment
+   NODE_ENV=development
+   ```
+   
+   Replace the `mongoUri` value with your actual MongoDB connection string.
 
 4. **Run the application**
    ```bash
@@ -55,149 +58,41 @@ A RESTful API built with NestJS framework for managing items with MongoDB integr
    npm run start:prod
    ```
 
-The API will be available at `http://localhost:3000`
+## 📚 API Endpoints
 
-## 📚 API Documentation
+### Base URLs
+- **Local**: `http://localhost:3000`
+- **Production**: `https://nest-js-items-management-api.vercel.app`
 
-### Base URL
-```
-http://localhost:3000
-```
+### Available Endpoints
 
-### Endpoints
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/` | Health check |
+| `GET` | `/items` | Get all items |
+| `GET` | `/items/:id` | Get item by ID |
+| `POST` | `/items` | Create new item |
+| `PUT` | `/items/:id` | Update item |
+| `DELETE` | `/items/:id` | Delete item |
 
-#### 1. Get All Items
-Retrieves all items from the database.
+### Example Usage
 
-- **URL**: `/items`
-- **Method**: `GET`
-- **Response**: Array of items
-- **Status Codes**:
-  - `200`: Success
+```bash
+# Health check
+curl https://nest-js-items-management-api.vercel.app/
 
-**Example Response**:
-```json
-[
-  {
-    "_id": "64f8a1b2c3d4e5f6a7b8c9d0",
-    "name": "Sample Item",
-    "desc": "This is a sample item",
-    "qty": 100
-  }
-]
-```
+# Get all items
+curl https://nest-js-items-management-api.vercel.app/items
 
-#### 2. Get Item by ID
-Retrieves a specific item by its ID.
-
-- **URL**: `/items/:id`
-- **Method**: `GET`
-- **Parameters**:
-  - `id` (string): MongoDB ObjectId of the item
-- **Response**: Item object or error message
-- **Status Codes**:
-  - `200`: Success
-  - `404`: Item not found
-
-**Example Response**:
-```json
-{
-  "_id": "64f8a1b2c3d4e5f6a7b8c9d0",
-  "name": "Sample Item",
-  "desc": "This is a sample item",
-  "qty": 100
-}
+# Create a new item
+curl -X POST https://nest-js-items-management-api.vercel.app/items \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Test Item", "description": "Test Description", "qty": 10}'
 ```
 
-**Error Response**:
-```json
-"there is no item with id 64f8a1b2c3d4e5f6a7b8c9d0"
-```
+## 📊 Data Models
 
-#### 3. Create New Item
-Creates a new item in the database.
-
-- **URL**: `/items`
-- **Method**: `POST`
-- **Headers**: `Content-Type: application/json`
-- **Request Body**:
-  ```json
-  {
-    "name": "New Item",
-    "description": "Description of the new item",
-    "qty": 50
-  }
-  ```
-- **Response**: Created item object
-- **Status Codes**:
-  - `201`: Created successfully
-
-**Example Response**:
-```json
-{
-  "_id": "64f8a1b2c3d4e5f6a7b8c9d1",
-  "name": "New Item",
-  "desc": "Description of the new item",
-  "qty": 50
-}
-```
-
-#### 4. Update Item
-Updates an existing item by ID.
-
-- **URL**: `/items/:id`
-- **Method**: `PUT`
-- **Parameters**:
-  - `id` (string): MongoDB ObjectId of the item
-- **Headers**: `Content-Type: application/json`
-- **Request Body**:
-  ```json
-  {
-    "name": "Updated Item",
-    "description": "Updated description",
-    "qty": 75
-  }
-  ```
-- **Response**: Updated item object or null
-- **Status Codes**:
-  - `200`: Updated successfully
-  - `404`: Item not found
-
-**Example Response**:
-```json
-{
-  "_id": "64f8a1b2c3d4e5f6a7b8c9d0",
-  "name": "Updated Item",
-  "desc": "Updated description",
-  "qty": 75
-}
-```
-
-#### 5. Delete Item
-Deletes an item by ID.
-
-- **URL**: `/items/:id`
-- **Method**: `DELETE`
-- **Parameters**:
-  - `id` (string): MongoDB ObjectId of the item
-- **Response**: Deleted item object or null
-- **Status Codes**:
-  - `200`: Deleted successfully
-  - `404`: Item not found
-
-**Example Response**:
-```json
-{
-  "_id": "64f8a1b2c3d4e5f6a7b8c9d0",
-  "name": "Deleted Item",
-  "desc": "This item was deleted",
-  "qty": 25
-}
-```
-
-### Data Models
-
-#### Item Interface
+### Item Structure
 ```typescript
 interface Item {
   id?: string;      // MongoDB ObjectId (auto-generated)
@@ -207,7 +102,7 @@ interface Item {
 }
 ```
 
-#### Create Item DTO
+### Create Item DTO
 ```typescript
 class CreateItemDto {
   readonly name: string;        // Item name (required)
@@ -218,40 +113,33 @@ class CreateItemDto {
 
 ## 🧪 Testing
 
-Run the test suite:
-
 ```bash
-# Unit tests
-npm run test
-
-# Unit tests in watch mode
-npm run test:watch
-
-# E2E tests
-npm run test:e2e
-
-# Test coverage
-npm run test:cov
+npm run test          # Unit tests
+npm run test:e2e      # E2E tests
+npm run test:cov      # Coverage
 ```
 
 ## 🛠️ Development
 
-### Available Scripts
+```bash
+npm run start:dev     # Development mode
+npm run build         # Build
+npm run lint          # Lint
+npm run format        # Format code
+```
 
-- `npm run build` - Build the application
-- `npm run start` - Start the application
-- `npm run start:dev` - Start in development mode with hot reload
-- `npm run start:debug` - Start in debug mode
-- `npm run start:prod` - Start in production mode
-- `npm run lint` - Run ESLint
-- `npm run format` - Format code with Prettier
+## 🔧 Environment Variables
 
-### Project Structure
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `mongoUri` | MongoDB connection string | Required |
+| `PORT` | Server port | 3000 |
+| `NODE_ENV` | Environment mode | development |
+
+## 📁 Project Structure
 
 ```
 src/
-├── config/
-│   └── keys.ts              # Configuration (MongoDB URI)
 ├── items/
 │   ├── dto/
 │   │   └── create-item.dto.ts    # Data Transfer Objects
@@ -268,36 +156,14 @@ src/
 └── main.ts                      # Application entry point
 ```
 
-## 🔧 Configuration
+## 📄 License
 
-The application uses a simple configuration file located at `src/config/keys.ts`. Update the MongoDB connection string to point to your database:
-
-```typescript
-export default {
-  mongoUri: 'mongodb+srv://username:password@cluster.mongodb.net/database'
-}
-```
-
-## 📝 Environment Variables
-
-You can also use environment variables for configuration:
-
-- `PORT`: Server port (default: 3000)
-- `MONGODB_URI`: MongoDB connection string
+MIT License
 
 ## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Add tests for new functionality
-5. Ensure all tests pass
-6. Submit a pull request
-
-## 📄 License
-
-This project is licensed under the MIT License.
-
-## 🆘 Support
-
-For support and questions, please open an issue in the repository.
+4. Add tests
+5. Submit a pull request
